@@ -1,7 +1,5 @@
 # stockBot
 
-Template Code for TOC Project 2017
-
 A telegram bot for stock market query.
 
 #### Setup
