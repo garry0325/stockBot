@@ -1,7 +1,7 @@
 import sys
 import telegram
 from flask import Flask,request
-#from fsm import TocMachine
+from fsm import stockMachine
 
 import twstock
 
@@ -10,7 +10,55 @@ import time
 
 app=Flask(__name__)
 bot=telegram.Bot(token='491933444:AAHULAo8FE3crybP3YBAw0mmpEnGs1sA-lc')
-
+machine = stockMachine(
+					   states=[
+							   'modeSelection',
+							   'stock',
+							   'currency'
+							   'makeOrder'
+							   ],
+					   transitions=[
+									{
+									'trigger': 'stockTermsTriggered',
+									'source': 'modeSelection',
+									'dest': 'stock',
+									
+									},
+									{
+									'trigger': 'currencyTermsTriggered',
+									'source': 'modeSelection',
+									'dest': 'currency',
+									},
+									{
+									'trigger': 'currencyTermsTriggered',
+									'source': 'stock',
+									'dest': 'currency'
+									},
+									{
+									'trigger': 'stockTermsTriggered',
+									'source': 'currency',
+									'dest': 'stock'
+									},
+									{
+									'trigger': 'buy',
+									'source': 'stock',
+									'dest': 'order'
+									},
+									{
+									'trigger': 'cancel',
+									'source': 'order',
+									'dest': 'stock'
+									},
+									{
+									'trigger': 'orderConfirmed',
+									'source': 'order',
+									'dest': 'modeSelection'
+									}
+									],
+					   initial='modeSelection',
+					   auto_transitions=False,
+					   show_conditions=True,
+					   )
 
 helpPhrases=('how to','help','how to use','instruction','who are you')
 modePhrases=('stock','currency','fx','foreign exchange')
@@ -24,7 +72,7 @@ buyPhrases=('buy','get')
 
 
 def setWebhook():
-	status=bot.set_webhook('https://a7c52afe.ngrok.io/hook')
+	status=bot.set_webhook('https://5c0dfd60.ngrok.io/hook')
 	if not status:
 		print('Webhook setup failed')
 		sys.exit(1)
@@ -203,7 +251,12 @@ def checkStock(stockNumber,stockInfo):
 	return respond
 
 
-
+@app.route('/show-fsm', methods=['GET'])
+def show_fsm():
+	byte_io = BytesIO()
+	machine.graph.draw(byte_io, prog='dot', format='png')
+	byte_io.seek(0)
+	return send_file(byte_io, attachment_filename='fsm.png', mimetype='image/png')
 
 
 
