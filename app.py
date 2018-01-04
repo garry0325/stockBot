@@ -72,7 +72,7 @@ buyPhrases=('buy','get')
 
 
 def setWebhook():
-	status=bot.set_webhook('https://f94e6bb1.ngrok.io/hook')
+	status=bot.set_webhook('https://7dbf0527.ngrok.io/hook')
 	if not status:
 		print('Webhook setup failed')
 		sys.exit(1)
@@ -102,6 +102,7 @@ def stateDecision(txt):
 	global stockTechInfo
 	global currentStock,name,price
 	wordComposition=txt.split()
+	txt=txt.lower()
 	
 	determineUnknownWords()
 	
@@ -193,7 +194,12 @@ def stateDecision(txt):
 			respond='Order CANCELED'
 			mode=1
 		else:
-			respond="Order Confirmed: Buy in %s %s for %s shares at %s per share. Total cost is $%.2f" % (currentStock,name,unknownWords[0],price,float(float(unknownWords[0])*float(price)))
+
+
+
+			totalPrice=format(float(float(unknownWords[0])*float(price)),",")
+			timeString=time.strftime("%b %d %Y %H:%M",time.localtime())
+			respond="Order Confirmed (%s):\nBuy in %s %s for %s shares at %s per share. Total cost is NT$%s.\nPlease make sure your account has sufficient balance for the order." % (timeString,currentStock,name,unknownWords[0],price,totalPrice)
 			mode=1
 
 	
