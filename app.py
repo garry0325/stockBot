@@ -9,7 +9,7 @@ import time
 
 
 app=Flask(__name__)
-bot=telegram.Bot(token='491933444:AAHULAo8FE3crybP3YBAw0mmpEnGs1sA-lc')
+bot=telegram.Bot(token='529390093:AAE-Hrd7jfscNskOKrOMGQKYzQ-RCqizrrM')
 machine = stockMachine(
 					   states=[
 							   'modeSelection',
@@ -72,7 +72,7 @@ buyPhrases=('buy','get')
 
 
 def setWebhook():
-	status=bot.set_webhook('https://5c0dfd60.ngrok.io/hook')
+	status=bot.set_webhook('https://f94e6bb1.ngrok.io/hook')
 	if not status:
 		print('Webhook setup failed')
 		sys.exit(1)
