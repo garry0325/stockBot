@@ -30,3 +30,4 @@ python3 app.py
 4. The bot will response with the information you want.
 5. You can buy the stock directly from it. Simply say "I want to buy this stock".
 6. The bot will ask you for how many shares you want to buy. You can cancel the request buy just saying "I want to cancel the order" or "I give up buying".
+7. Enjoy the chat.
