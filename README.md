@@ -1,6 +1,6 @@
 # stockBot
 
-A telegram bot for stock market query.
+A telegram bot for stock market inquiry.
 
 #### Setup
 ```sh
